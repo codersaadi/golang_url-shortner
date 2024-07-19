@@ -1,16 +1,15 @@
 package app
 
 import (
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 )
 
-func RegisterRoutes(router *mux.Router, apiCfg ApiConfig) {
-	router.HandleFunc("/shorten", apiCfg.ShortenURL).Methods("POST")
-	router.HandleFunc("/url", apiCfg.GetURLs).Methods("GET")
-	router.HandleFunc("/url/{id}", apiCfg.GetURLByID).Methods("GET")
-	router.HandleFunc("/original", apiCfg.GetURLByOriginalURL).Methods("GET")
-	router.HandleFunc("/{shortURL}", apiCfg.RedirectURL).Methods("GET")
-	router.HandleFunc("/url/{id}", apiCfg.DeleteURL).Methods("DELETE")
-	router.HandleFunc("/url/{id}", apiCfg.UpdateURL).Methods("PUT")
-
+func RegisterRoutes(router *chi.Mux, apiCfg ApiConfig) {
+	router.Delete("/url/{id}", apiCfg.DeleteURL)
+	router.Post("/shorten", apiCfg.ShortenURL)
+	router.Get("/url", apiCfg.GetURLs)
+	router.Get("/url/{id}", apiCfg.GetURLByID)
+	router.Get("/original", apiCfg.GetURLByOriginalURL)
+	router.Get("/{shortURL}", apiCfg.RedirectURL)
+	router.Put("/url/{id}", apiCfg.UpdateURL)
 }
